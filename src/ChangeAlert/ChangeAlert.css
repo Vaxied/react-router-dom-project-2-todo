@@ -1,0 +1,38 @@
+.ChangeAlert-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #1e1e1f50;
+  z-index: 2;
+}
+
+.ChangeAlert-container {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: rgb(25, 25, 25);
+  color: #fafafa;
+  text-align: center;
+  font-size: 1.25rem;
+  z-index: 2;
+}
+
+.ChangeAlert-msg {
+  margin-top: 2rem;
+}
+
+.ChangeAlert-reload-btn {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem 2rem;
+  background-color: #61dafa;
+  box-shadow: 0px 5px 25px rgba(97, 218, 250, 0.5);
+  font-size: 1.25rem;
+}
+
+.ChangeAlert-reload-btn:hover {
+  cursor: pointer;
+}
