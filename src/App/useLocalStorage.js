@@ -1,55 +1,113 @@
-import React from "react";
+import React from 'react'
 
 function useLocalStorage(itemName, initialValue) {
-  const [error, setError] = React.useState(false);
-  const [syncronizedItem, setsyncronizedItem] = React.useState(true);
-  const [loading, setLoading] = React.useState(true);
-  const [item, setItem] = React.useState(initialValue);
+    const [state, dispatch] = React.useReducer(
+        reducer,
+        initialState({ initialValue })
+    )
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      try {
-        const localStorageItem = localStorage.getItem(itemName);
-        let parsedItem;
+    const { error, synchronizedItem, loading, item } = state
+    // ACTION CREATORS
 
-        if (!localStorageItem) {
-          localStorage.setItem(itemName, JSON.stringify(initialValue));
-          parsedItem = initialValue;
-        } else {
-          parsedItem = JSON.parse(localStorageItem);
+    const onError = (error) =>
+        dispatch({ type: actionTypes.error, payload: error })
+    const onSuccess = (item) =>
+        dispatch({ type: actionTypes.success, payload: item })
+    const onSave = (item) => dispatch({ type: actionTypes.save, payload: item })
+    const onSynchronize = () => dispatch({ type: actionTypes.synchronize })
+
+    React.useEffect(() => {
+        setTimeout(() => {
+            console.log(state)
+            try {
+                const localStorageItem = localStorage.getItem(itemName)
+                let parsedItem
+                console.log(localStorageItem)
+                if (!localStorageItem) {
+                    localStorage.setItem(itemName, JSON.stringify(initialValue))
+                    parsedItem = initialValue
+                } else {
+                    parsedItem = JSON.parse(localStorageItem)
+                }
+                onSuccess(parsedItem)
+            } catch (error) {
+                onError(error)
+            }
+        }, 3000)
+    }, [synchronizedItem])
+
+    const saveItem = (newItem) => {
+        try {
+            const stringifiedItem = JSON.stringify(newItem)
+            localStorage.setItem(itemName, stringifiedItem)
+            onSave(newItem)
+        } catch (error) {
+            onError(error)
         }
-
-        setItem(parsedItem);
-        setLoading(false);
-        setsyncronizedItem(true);
-      } catch (error) {
-        setError(error);
-      }
-    }, 3000);
-  }, [syncronizedItem]);
-
-  const syncronizeItem = () => {
-    setLoading(true);
-    setsyncronizedItem(false);
-  };
-
-  const saveItem = (newItem) => {
-    try {
-      const stringifiedItem = JSON.stringify(newItem);
-      localStorage.setItem(itemName, stringifiedItem);
-      setItem(newItem);
-    } catch (error) {
-      setError(error);
     }
-  };
 
-  return {
-    item,
-    saveItem,
-    loading,
-    error,
-    syncronizeItem,
-  };
+    const synchronizeItem = () => {
+        onSynchronize()
+    }
+
+    return {
+        item,
+        saveItem,
+        loading,
+        error,
+        synchronizeItem,
+    }
+}
+const initialState = ({ initialValue }) => ({
+    error: false,
+    synchronizedItem: true,
+    loading: true,
+    item: initialValue,
+})
+
+const actionTypes = {
+    error: 'ERROR',
+    success: 'SUCCESS',
+    save: 'SAVE',
+    synchronize: 'SYNCHRONYZE',
 }
 
-export { useLocalStorage };
+const reducer = (state, action) => {
+    // actionTypes.success and [actionTypes.success] are not the same. 'SUCCESS' != ['SUCCESS']
+    // console.log(action.type, [actionTypes.success])
+    switch (action.type) {
+        case actionTypes.error: {
+            return {
+                ...state,
+                error: action.payload,
+            }
+        }
+        case actionTypes.success: {
+            return {
+                ...state,
+                error: false,
+                loading: false,
+                synchronizedItem: true,
+                item: action.payload,
+            }
+        }
+        case actionTypes.save: {
+            return {
+                ...state,
+                item: action.payload,
+            }
+        }
+        case actionTypes.synchronize: {
+            return {
+                ...state,
+                synchronizedItem: false,
+                loading: true,
+            }
+        }
+        default: {
+            return { ...state }
+        }
+    }
+}
+
+export { useLocalStorage }
