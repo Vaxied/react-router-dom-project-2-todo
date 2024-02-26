@@ -50,20 +50,28 @@ function useTodos() {
         saveTodos(newTodos)
     }
 
-    return {
-        loading,
+    const state = {
         error,
-        totalTodos,
-        completedTodos,
-        searchValue,
-        setSearchValue,
-        searchedTodos,
-        addTodo,
+        loading,
         completeTodo,
-        deleteTodo,
         openModal,
+        completedTodos,
+        totalTodos,
+        searchValue,
+        searchedTodos,
+    }
+
+    const stateUpdaters = {
+        deleteTodo,
         setOpenModal,
         synchronizeTodos,
+        addTodo,
+        setSearchValue,
+    }
+
+    return {
+        state,
+        stateUpdaters,
     }
 }
 
