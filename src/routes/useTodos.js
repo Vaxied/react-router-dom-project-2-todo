@@ -53,7 +53,6 @@ function useTodos() {
     const state = {
         error,
         loading,
-        completeTodo,
         openModal,
         completedTodos,
         totalTodos,
@@ -63,6 +62,7 @@ function useTodos() {
 
     const stateUpdaters = {
         deleteTodo,
+        completeTodo,
         setOpenModal,
         synchronizeTodos,
         addTodo,
