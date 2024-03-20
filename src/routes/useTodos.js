@@ -1,6 +1,5 @@
 import React from 'react'
 import { useLocalStorage } from './useLocalStorage'
-import { TodoList } from '../ui/TodoList'
 
 function useTodos() {
     const {
@@ -11,11 +10,9 @@ function useTodos() {
         synchronizeItem: synchronizeTodos,
     } = useLocalStorage('TODOS_V2', [])
     const [searchValue, setSearchValue] = React.useState('')
-    const [openModal, setOpenModal] = React.useState(false)
 
     const completedTodos = todos.filter((todo) => !!todo.completed).length
     const totalTodos = todos.length
-
     let searchedTodos = []
 
     if (!searchValue.length >= 1) {
@@ -29,7 +26,6 @@ function useTodos() {
     }
 
     const addTodo = (text) => {
-        console.log(addTodo)
         const id = newToDoId(todos)
         const newTodos = [...todos]
         newTodos.push({
@@ -37,15 +33,19 @@ function useTodos() {
             text,
             id,
         })
-        console.log(newTodos)
         saveTodos(newTodos)
+    }
+
+    const getTodo = (id) => {
+        const todoIndex = todos.findIndex((todo) => todo.id === id)
+        return todos[todoIndex]
     }
 
     const editTodo = (id, text) => {
         console.log(editTodo)
-        const index = todos.findIndex((todo) => todo.id === id)
+        const todoIndex = todos.findIndex((todo) => todo.id === id)
         const newTodos = [...todos]
-        newTodos[index].text = text
+        newTodos[todoIndex].text = text
         saveTodos(newTodos)
     }
 
@@ -70,6 +70,7 @@ function useTodos() {
         totalTodos,
         searchValue,
         searchedTodos,
+        getTodo,
     }
 
     const stateUpdaters = {
