@@ -12,14 +12,16 @@ import { TodoForm } from '../../ui/TodoForm'
 import { CreateTodoButton } from '../../ui/CreateTodoButton'
 import { Modal } from '../../ui/Modal'
 import { ChangeAlert } from '../../ui/ChangeAlert'
+import { useNavigate } from 'react-router-dom'
 
 function HomePage() {
+    const navigate = useNavigate()
     const { state, stateUpdaters } = useTodos()
 
     const {
         error,
         loading,
-        openModal,
+        // openModal,
         completedTodos,
         totalTodos,
         searchValue,
@@ -29,7 +31,7 @@ function HomePage() {
     const {
         deleteTodo,
         completeTodo,
-        setOpenModal,
+        // setOpenModal,
         synchronizeTodos,
         addTodo,
         setSearchValue,
@@ -65,23 +67,25 @@ function HomePage() {
             >
                 {(todo) => (
                     <TodoItem
-                        key={todo.text}
+                        key={todo.id}
                         text={todo.text}
                         completed={todo.completed}
-                        onComplete={() => completeTodo(todo.text)}
-                        onEdit={() => console.log('Edit todo')}
-                        onDelete={() => deleteTodo(todo.text)}
+                        onComplete={() => completeTodo(todo.id)}
+                        onEdit={() => navigate(`/edit/${todo.id}`)}
+                        onDelete={() => deleteTodo(todo.id)}
                     />
                 )}
             </TodoList>
 
-            {!!openModal && (
+            {/* {!!openModal && (
                 <Modal>
                     <TodoForm addTodo={addTodo} setOpenModal={setOpenModal} />
                 </Modal>
-            )}
+            )} */}
 
-            <CreateTodoButton setOpenModal={setOpenModal} />
+            <CreateTodoButton
+            // setOpenModal={setOpenModal}
+            />
             <ChangeAlert synchronize={synchronizeTodos} />
         </React.Fragment>
     )

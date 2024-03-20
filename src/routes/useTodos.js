@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocalStorage } from './useLocalStorage'
+import { TodoList } from '../ui/TodoList'
 
 function useTodos() {
     const {
@@ -8,7 +9,7 @@ function useTodos() {
         loading,
         error,
         synchronizeItem: synchronizeTodos,
-    } = useLocalStorage('TODOS_V1', [])
+    } = useLocalStorage('TODOS_V2', [])
     const [searchValue, setSearchValue] = React.useState('')
     const [openModal, setOpenModal] = React.useState(false)
 
@@ -28,23 +29,35 @@ function useTodos() {
     }
 
     const addTodo = (text) => {
+        console.log(addTodo)
+        const id = newToDoId(todos)
         const newTodos = [...todos]
         newTodos.push({
             completed: false,
             text,
+            id,
         })
+        console.log(newTodos)
         saveTodos(newTodos)
     }
 
-    const completeTodo = (text) => {
-        const todoIndex = todos.findIndex((todo) => todo.text === text)
+    const editTodo = (id, text) => {
+        console.log(editTodo)
+        const index = todos.findIndex((todo) => todo.id === id)
+        const newTodos = [...todos]
+        newTodos[index].text = text
+        saveTodos(newTodos)
+    }
+
+    const completeTodo = (id) => {
+        const todoIndex = todos.findIndex((todo) => todo.id === id)
         const newTodos = [...todos]
         newTodos[todoIndex].completed = true
         saveTodos(newTodos)
     }
 
-    const deleteTodo = (text) => {
-        const todoIndex = todos.findIndex((todo) => todo.text === text)
+    const deleteTodo = (id) => {
+        const todoIndex = todos.findIndex((todo) => todo.id === id)
         const newTodos = [...todos]
         newTodos.splice(todoIndex, 1)
         saveTodos(newTodos)
@@ -53,7 +66,6 @@ function useTodos() {
     const state = {
         error,
         loading,
-        openModal,
         completedTodos,
         totalTodos,
         searchValue,
@@ -63,9 +75,9 @@ function useTodos() {
     const stateUpdaters = {
         deleteTodo,
         completeTodo,
-        setOpenModal,
         synchronizeTodos,
         addTodo,
+        editTodo,
         setSearchValue,
     }
 
@@ -75,4 +87,11 @@ function useTodos() {
     }
 }
 
+function newToDoId(todos) {
+    console.log(todos.length)
+    if (!todos.length) return 1
+    const idList = todos.map((todo) => todo.id)
+    let id = Math.max(...idList) + 1
+    return id
+}
 export { useTodos }
