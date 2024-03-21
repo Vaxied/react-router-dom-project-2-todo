@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocalStorage } from './useLocalStorage'
+import { useSearchParams } from 'react-router-dom'
 
 function useTodos() {
     const {
@@ -9,7 +10,15 @@ function useTodos() {
         error,
         synchronizeItem: synchronizeTodos,
     } = useLocalStorage('TODOS_V2', [])
+
+    const [searchParams] = useSearchParams()
+    const paramsValue = searchParams.get('search')
     const [searchValue, setSearchValue] = React.useState('')
+
+    // Verify if search parameters exist. If they do, and are different than the input value, set to the params value.
+    if (paramsValue && paramsValue !== searchValue) {
+        setSearchValue(paramsValue)
+    }
 
     const completedTodos = todos.filter((todo) => !!todo.completed).length
     const totalTodos = todos.length
