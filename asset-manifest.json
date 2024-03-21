@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/react-router-dom-project-2-todo/static/css/main.cb7ccf80.css",
-    "main.js": "/react-router-dom-project-2-todo/static/js/main.2fba8e6e.js",
+    "main.css": "/react-router-dom-project-2-todo/static/css/main.a883c39e.css",
+    "main.js": "/react-router-dom-project-2-todo/static/js/main.7af63202.js",
     "index.html": "/react-router-dom-project-2-todo/index.html",
     "static/media/delete.svg": "/react-router-dom-project-2-todo/static/media/delete.331149da222541bc87c25bf8d775a070.svg",
     "static/media/edit.svg": "/react-router-dom-project-2-todo/static/media/edit.194f70f4fe90dc741a11d81b9a736fb4.svg",
     "static/media/check.svg": "/react-router-dom-project-2-todo/static/media/check.fa4fb594b16385306a04b9c87c0feb55.svg",
-    "main.cb7ccf80.css.map": "/react-router-dom-project-2-todo/static/css/main.cb7ccf80.css.map",
-    "main.2fba8e6e.js.map": "/react-router-dom-project-2-todo/static/js/main.2fba8e6e.js.map"
+    "main.a883c39e.css.map": "/react-router-dom-project-2-todo/static/css/main.a883c39e.css.map",
+    "main.7af63202.js.map": "/react-router-dom-project-2-todo/static/js/main.7af63202.js.map"
   },
   "entrypoints": [
-    "static/css/main.cb7ccf80.css",
-    "static/js/main.2fba8e6e.js"
+    "static/css/main.a883c39e.css",
+    "static/js/main.7af63202.js"
   ]
 }
