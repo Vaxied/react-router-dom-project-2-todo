@@ -1,7 +1,10 @@
 import React from 'react'
 import { useLocalStorage } from './useLocalStorage'
-import { useSearchParams } from 'react-router-dom'
+// import { useSearchParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 
+// Custom hook to get URL query
+const useQuery = () => new URLSearchParams(useLocation().search)
 function useTodos() {
     const {
         item: todos,
@@ -10,10 +13,11 @@ function useTodos() {
         error,
         synchronizeItem: synchronizeTodos,
     } = useLocalStorage('TODOS_V2', [])
-
-    const [searchParams] = useSearchParams()
-    const paramsValue = searchParams.get('search')
+    // const [searchParams] = useSearchParams()
+    // const paramsValue = searchParams.get('search')
     const [searchValue, setSearchValue] = React.useState('')
+    const query = useQuery()
+    const paramsValue = query.get('search')
 
     // Verify if search parameters exist. If they do, and are different than the input value, set to the params value.
     if (paramsValue && paramsValue !== searchValue) {
@@ -51,8 +55,13 @@ function useTodos() {
     }
 
     const editTodo = (id, text) => {
-        console.log(editTodo)
-        const todoIndex = todos.findIndex((todo) => todo.id === id)
+        console.log('id', id)
+        console.log('text', text)
+        const todoIndex = todos.findIndex((todo) => {
+            console.log(todo.id === id)
+            return todo.id === id
+        })
+        console.log('index', todoIndex)
         const newTodos = [...todos]
         newTodos[todoIndex].text = text
         saveTodos(newTodos)

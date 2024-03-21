@@ -1,27 +1,36 @@
 import React from 'react'
 import './TodoSearch.css'
-import { useSearchParams } from 'react-router-dom'
+import {
+    useHistory,
+    useLocation,
+} from 'react-router-dom/cjs/react-router-dom.min'
+// import { useSearchParams } from 'react-router-dom'
 
 function TodoSearch({ searchValue, setSearchValue, loading }) {
-    const [searchParams, setSearchParams] = useSearchParams()
-    const paramsValue = searchParams.get('search')
+    // const [searchParams, setSearchParams] = useSearchParams()
+    // const paramsValue = searchParams.get('search')
+    const history = useHistory()
+    const location = useLocation()
     const onSearchValueChange = (event) => {
-        console.log(event.target.value)
+        const params = new URLSearchParams({ search: event.target.value })
         setSearchValue(event.target.value)
-        setSearchParams({ search: event.target.value })
+        // setSearchParams({ search: event.target.value })
+        insertParams(event, params)
         console.log('changed')
     }
-    let text = searchValue
-    if (paramsValue) {
-        text = paramsValue
+
+    const insertParams = (event, params) => {
+        history.replace({
+            pathname: location.pathname,
+            search: params.toString(),
+        })
     }
-    console.log('this is text', text)
 
     return (
         <input
             className="TodoSearch"
             placeholder="Onion"
-            value={text || ''}
+            value={searchValue || ''}
             onChange={onSearchValueChange}
             disabled={loading}
         />

@@ -8,14 +8,15 @@ import { TodoItem } from '../../ui/TodoItem'
 import { TodosError } from '../../ui/TodosError'
 import { TodosLoading } from '../../ui/TodosLoading'
 import { EmptyTodos } from '../../ui/EmptyTodos'
-import { TodoForm } from '../../ui/TodoForm'
+// import { TodoForm } from '../../ui/TodoForm'
 import { CreateTodoButton } from '../../ui/CreateTodoButton'
-import { Modal } from '../../ui/Modal'
 import { ChangeAlert } from '../../ui/ChangeAlert'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 function HomePage() {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
+    const history = useHistory()
     const { state, stateUpdaters } = useTodos()
 
     const {
@@ -33,7 +34,6 @@ function HomePage() {
         completeTodo,
         // setOpenModal,
         synchronizeTodos,
-        addTodo,
         setSearchValue,
     } = stateUpdaters
 
@@ -72,7 +72,11 @@ function HomePage() {
                         completed={todo.completed}
                         onComplete={() => completeTodo(todo.id)}
                         onEdit={() =>
-                            navigate(`/edit/${todo.id}`, { state: { todo } })
+                            //navigate(`/edit/${todo.id}`)
+                            history.push({
+                                pathname: '/edit/' + todo.id,
+                                state: { todo },
+                            })
                         }
                         onDelete={() => deleteTodo(todo.id)}
                     />

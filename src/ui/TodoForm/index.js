@@ -1,9 +1,14 @@
 import React from 'react'
 import './TodoForm.css'
-import { useNavigate } from 'react-router-dom'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+// import { useNavigate } from 'react-router-dom'
+import { useTodos } from '../../routes/useTodos'
 
 function TodoForm(props) {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
+    const history = useHistory()
+    const { state } = useTodos()
+    const { loading } = state
     const [newTodoValue, setNewTodoValue] = React.useState(
         props.defaultTodoText || ''
     )
@@ -12,16 +17,17 @@ function TodoForm(props) {
         setNewTodoValue(event.target.value)
     }
     const onCancel = () => {
-        navigate('/')
+        // navigate('/')
+        history.push('/')
     }
     const onSubmit = (event) => {
         event.preventDefault()
         console.log(props)
         props.submitEvent(newTodoValue)
         console.log(newTodoValue)
-        navigate('/')
+        // navigate('/')
+        history.push('/')
     }
-
     return (
         <form onSubmit={onSubmit}>
             <label>{props.label}</label>
@@ -29,6 +35,7 @@ function TodoForm(props) {
                 value={newTodoValue}
                 onChange={onChange}
                 placeholder="Cut onions for lunch"
+                disabled={loading}
             />
             <div className="TodoForm-buttonContainer">
                 <button

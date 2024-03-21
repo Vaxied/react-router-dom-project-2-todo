@@ -46,6 +46,11 @@ textarea:focus {
     outline-color: #61dafa;
 }
 
+textarea:disabled {
+    opacity: 0.5;
+    background-color: rgb(210, 209, 209);
+}
+
 .TodoForm-buttonContainer {
     margin-top: 14px;
     display: flex;

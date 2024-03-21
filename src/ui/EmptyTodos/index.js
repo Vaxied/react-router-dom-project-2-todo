@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 function EmptyTodos() {
-  return <p>¡Crea tu primer TODO!</p>;
+    return <p>¡Create your first TODO!</p>
 }
 
-export { EmptyTodos };
+export { EmptyTodos }
